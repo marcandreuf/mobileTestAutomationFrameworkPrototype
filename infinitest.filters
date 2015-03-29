@@ -1,0 +1,6 @@
+# This file is a list of regular expressions that Infinitest plugin uses to filter the
+# src/test/java folder in order to identify which test should be run at build time.
+
+
+^android.*
+^ios.*
