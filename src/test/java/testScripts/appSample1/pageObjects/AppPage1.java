@@ -1,10 +1,10 @@
 package testScripts.appSample1.pageObjects;
 
-import org.test.mobile.automation.applications.sampleApp.pageObjects.PageObjectTemplate;
-import org.test.mobile.automation.framework.commons.app.App;
-import org.test.mobile.automation.framework.commons.device.Device;
-import org.test.mobile.automation.framework.commons.exceptions.PageObjectException;
-import org.test.mobile.automation.framework.commons.pageObject.PageObject;
+import org.mandfer.mobile.automation.applications.sampleApp.pageObjects.PageObjectTemplate;
+import org.mandfer.mobile.automation.framework.commons.app.App;
+import org.mandfer.mobile.automation.framework.commons.device.Device;
+import org.mandfer.mobile.automation.framework.commons.exceptions.PageObjectException;
+import org.mandfer.mobile.automation.framework.commons.pageObject.PageObject;
 
 /**
  *

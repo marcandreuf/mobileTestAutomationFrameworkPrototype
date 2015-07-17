@@ -1,8 +1,8 @@
 package testScripts.appSample1.scripts;
 
-import org.test.mobile.automation.framework.commons.app.App;
-import org.test.mobile.automation.framework.commons.device.Device;
-import org.test.mobile.automation.framework.commons.dsl.TestScript;
+import org.mandfer.mobile.automation.framework.commons.app.App;
+import org.mandfer.mobile.automation.framework.commons.device.Device;
+import org.mandfer.mobile.automation.framework.commons.dsl.TestScript;
 
 /**
  *
