@@ -24,7 +24,7 @@ public class DriverFactoryGuice implements DriverFactory {
 
     @Override
     public Driver create(String configFilename) throws DriverFactoryException {
-        Properties config = null;
+        Properties config;
         try {
             config = configLoader.loadConfig(configFilename);
             return instantiateDriverByClassName(config);

@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static junit.org.mandfer.mobile.automation.framework.commons.JunitTestConstants.TEST_APP_SAMPLE_FILE_NAME;
-import static junit.org.mandfer.mobile.automation.framework.commons.JunitTestConstants.TEST_SAMPLE_PROPS_FILE;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
