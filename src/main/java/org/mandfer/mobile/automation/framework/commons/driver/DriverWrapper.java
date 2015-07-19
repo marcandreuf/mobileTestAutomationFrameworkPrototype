@@ -23,7 +23,10 @@ public abstract class DriverWrapper implements Driver {
 
     public DriverWrapper(Properties config){
         this.config = config;
+        instantiateExternalDriver();
     }
+    
+    protected abstract void instantiateExternalDriver();
 
     protected void mapDriverSettingsValuesToMemberAttributes(String[] driverSettings) {
         JsonObject jsonOption;

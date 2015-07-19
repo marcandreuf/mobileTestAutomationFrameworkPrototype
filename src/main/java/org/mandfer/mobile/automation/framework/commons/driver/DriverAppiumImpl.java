@@ -33,12 +33,18 @@ import java.util.Properties;
  */
 public class DriverAppiumImpl extends DriverWrapper {
     
-    private final AppiumDriver appiumDriver;
+    private AppiumDriver appiumDriver;
 
-    //TODO: Inject appium driver via Guice
-    public DriverAppiumImpl(Properties config, AppiumDriver appiumDriver) {
-        super(config);
-        this.appiumDriver = appiumDriver;
+    
+    public DriverAppiumImpl(Properties config) {
+        super(config);        
+    }
+    
+   
+    @Override
+    protected void instantiateExternalDriver() {
+        //TODO: instantiate appium driver.
+        this.appiumDriver = null;
     }
 
     @Override
@@ -141,5 +147,7 @@ public class DriverAppiumImpl extends DriverWrapper {
     public void runCommand(String command, String... options) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+
     
 }
