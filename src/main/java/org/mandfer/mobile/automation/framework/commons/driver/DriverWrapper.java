@@ -18,7 +18,7 @@ public abstract class DriverWrapper implements Driver {
     
     protected int clicks = DEFAULT_CLICK;
     protected int timeout = DEFAULT_TIMEOUT;
-    protected final Properties config;
+    protected Properties config;
 
 
     public DriverWrapper(Properties config){

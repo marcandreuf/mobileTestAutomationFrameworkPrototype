@@ -33,17 +33,17 @@ import java.util.Properties;
  */
 public class DriverAppiumImpl extends DriverWrapper {
     
-    private AppiumDriver appiumDriver;
-
+    protected AppiumDriver appiumDriver;
     
     public DriverAppiumImpl(Properties config) {
         super(config);        
     }
-    
    
     @Override
     protected void instantiateExternalDriver() {
         //TODO: instantiate appium driver.
+        
+        // Read properties and chose the driver to instantiate.
         this.appiumDriver = null;
     }
 
@@ -74,8 +74,8 @@ public class DriverAppiumImpl extends DriverWrapper {
     }
 
     @Override
-    public void click(String clickableItem, String... options) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void click(String elemId, String... options) {
+        appiumDriver.findElementById(elemId).click();
     }
 
     @Override
