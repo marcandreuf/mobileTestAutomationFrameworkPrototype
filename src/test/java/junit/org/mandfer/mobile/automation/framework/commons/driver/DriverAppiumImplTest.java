@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
  * This is an example of how to test an implementation of a real third party driver.
  *
  */
-public class DriverAppiumImplTest extends DriverAppiumImpl {
+public class DriverAppiumImplTest {
 
     private static final String APP_IDENTIFIER = "appIdentifier";
     private static final String ELEM_IDENTIFIER = "sampleElementId";
@@ -32,37 +32,34 @@ public class DriverAppiumImplTest extends DriverAppiumImpl {
             "{"+DriverWrapper.PARAM_TIMEOUT+":"+LONG_TIMEOUT+"}";
 
     private MobileElement mocked_sampleElement;
-
-    /**
-     * To avoid a second constructor to pass the Appium Driver as a mocked object.
-     * This test class extends the class under test so we can assign the mocked driver and
-     * do the verifications between the calls of the Driver interface calls and the external driver.
-     */
-    public DriverAppiumImplTest() {
-        super(null);
-    }
+    private Properties mocked_config;
+    private AppiumDriver mocked_appiumDriver;
+    private DriverAppiumImpl driver;
+    
+    
 
     @Before
     public void setUpDriver(){
         mocked_sampleElement = mock(MobileElement.class);
-        this.config = mock(Properties.class);
-        this.appiumDriver = mock(AppiumDriver.class);
+        mocked_config = mock(Properties.class);
+        mocked_appiumDriver = mock(AppiumDriver.class);
+        driver = new DriverAppiumImpl(mocked_config, mocked_appiumDriver);
     }
 
     @Test
     public void testInstallApplication() {
-        this.installApplication(APP_IDENTIFIER);
-        verify(appiumDriver).installApp(APP_IDENTIFIER);
-        verifyNoMoreInteractions(appiumDriver);
+        driver.installApplication(APP_IDENTIFIER);
+        verify(mocked_appiumDriver).installApp(APP_IDENTIFIER);
+        verifyNoMoreInteractions(mocked_appiumDriver);
     }
 
     @Test
     public void testSimpleClick(){
-        when(appiumDriver.findElementById(ELEM_IDENTIFIER)).thenReturn(mocked_sampleElement);
-        this.click(ELEM_IDENTIFIER);
-        verify(appiumDriver).findElementById(ELEM_IDENTIFIER);
+        when(mocked_appiumDriver.findElementById(ELEM_IDENTIFIER)).thenReturn(mocked_sampleElement);
+        driver.click(ELEM_IDENTIFIER);
+        verify(mocked_appiumDriver).findElementById(ELEM_IDENTIFIER);
         verify(mocked_sampleElement).click();
-        verifyNoMoreInteractions(appiumDriver);
+        verifyNoMoreInteractions(mocked_appiumDriver);
     }
 
     @Test

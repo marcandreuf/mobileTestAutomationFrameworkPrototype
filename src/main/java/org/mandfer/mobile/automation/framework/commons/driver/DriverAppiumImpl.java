@@ -25,7 +25,16 @@
 package org.mandfer.mobile.automation.framework.commons.driver;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
+import org.mandfer.mobile.automation.framework.commons.exceptions.DriverException;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  *
@@ -33,19 +42,61 @@ import java.util.Properties;
  */
 public class DriverAppiumImpl extends DriverWrapper {
     
-    protected AppiumDriver appiumDriver;
+    protected final AppiumDriver appiumDriver;
     
-    public DriverAppiumImpl(Properties config) {
-        super(config);        
+    public DriverAppiumImpl(Properties config) throws DriverException {
+        super(config);
+        appiumDriver = instantiateExternalDriver();
     }
+    
+    public DriverAppiumImpl(Properties config, AppiumDriver appiumDriver){
+        super(config);
+        this.appiumDriver = appiumDriver;
+    }   
    
-    @Override
-    protected void instantiateExternalDriver() {
-        //TODO: instantiate appium driver.
+    //TODO: Create constants for all property keys.
+    private AppiumDriver instantiateExternalDriver() throws DriverException {
+        DesiredCapabilities capabilities;
+        String configPlatform = config.getProperty("platform");
+        String host =  config.getProperty("host");
+        String port = config.getProperty("port");        
         
-        // Read properties and chose the driver to instantiate.
-        this.appiumDriver = null;
+        if(MobilePlatform.ANDROID.equalsIgnoreCase(configPlatform)){
+            capabilities = DesiredCapabilities.android();
+            setConfigurationCapabilities(capabilities);
+            try {
+                return new AndroidDriver<MobileElement>(
+                  new URL(host+":"+port), capabilities);
+            } catch (MalformedURLException ex) {
+                throw new DriverException(ex.getMessage(), ex);
+            }            
+        }else if(MobilePlatform.IOS.equalsIgnoreCase(configPlatform)){
+            if("iPad".equalsIgnoreCase(config.getProperty("device.family"))){
+                capabilities = DesiredCapabilities.ipad();
+            }else{                
+                capabilities = DesiredCapabilities.iphone();
+            }
+            setConfigurationCapabilities(capabilities);
+            try {
+                return new IOSDriver<MobileElement>(
+                  new URL(host+":"+port), capabilities);
+            } catch (MalformedURLException ex) {
+                throw new DriverException(ex.getMessage(), ex);
+            }
+        }else{
+           throw new DriverException("Platform '"+configPlatform+"' not supported");
+        }        
     }
+
+    private void setConfigurationCapabilities(DesiredCapabilities capabilities) {
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+          config.getProperty("device.name"));
+        capabilities.setCapability(MobileCapabilityType.APP,
+          config.getProperty("appfileName.fullPath"));
+        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT,
+          config.getProperty("newCommand.timeout"));
+    }
+        
 
     @Override
     public void installApplication(String appIdentifier, String... options) {
